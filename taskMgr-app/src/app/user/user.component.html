@@ -1,0 +1,68 @@
+<form (ngSubmit)="onSubmit(userFrm)" [formGroup]="userFrm">
+<div class="tab-pane">
+<div class="form-group row">
+  <label class="col-xs-2 col-sm-2 col-form-label">First Name</label>
+  <div class="col-sm-4">
+  <input type="text" class="form-control" placeholder="First Name" formControlName="firstName" required>
+</div>
+</div>
+<div class="form-group row">
+    <label class="col-xs-2 col-sm-2 col-form-label">Last Name</label>
+    <div class="col-sm-4">
+    <input type="text" class="form-control" formControlName="lastName" placeholder="Last Name" required>
+  </div>
+  </div>
+  <div class="form-group row">
+      <label class="col-xs-2 col-sm-2 col-form-label">Employee Id</label>
+      <div class="col-sm-4">
+      <input type="text" class="form-control" formControlName="employeeId" placeholder="Employee Id" required>
+    </div>
+    </div>
+    
+        
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label"></label>
+          <div class="pull-right">
+            <input type="submit" id="btnSubmit" class="btn btn-primary mr-1" value="{{btnTitle}}">
+            <input type="button" class="btn btn-secondary" value="Reset">
+          </div>
+      </div>
+    
+</div>
+<div *ngIf="msg" role="alert" class="alert alert-info alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert"><span>*</span></button>
+  <span class="sr-only">Error:</span>{{msg}}
+</div>
+</form>
+<hr>
+<div class="row">
+  <div class="col-sm-10">
+    <div class="form-group row">
+      <input type="text" placeholder="Search.." [(ngModel)]="firstName"/>
+      <label class="col-xs-1 col-sm-1 col-form-label" >Sort:</label>
+      <button type="button" class="btn btn-light" (click)="sort('firstName')">First Name</button>
+      <button type="button" class="btn btn-light" (click)="sort('lastName')">Last Name</button>
+      <button type="button" class="btn btn-light" (click)="sort('employeeId')">Employee Id</button>
+    </div>
+  </div>
+</div>
+<table class="table table-bordered">
+  <tr *ngFor="let user of users | userFirstNameFilter:firstName| orderBy: {property: column, direction: direction}">
+    <td>
+      <table class="table table-striped">
+          <td>{{user.id}}</td>
+          <tr>
+          <td>{{user.firstName}}</td>
+          <td><button type="button" (click)="editUser(user.id)" class="btn btn-light">Edit</button></td>
+        </tr>
+        <tr>
+          <td>{{user.lastName}}</td>
+          <td><button type="button" (click)="deleteUser(user.id)" class="btn btn-light">Delete</button></td>
+          </tr>
+          <tr>
+          <td colspan="2">{{user.employeeId}}</td></tr>
+        
+      </table>
+    </td>
+    </tr>
+  </table>
