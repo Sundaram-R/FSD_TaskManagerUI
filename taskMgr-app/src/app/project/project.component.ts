@@ -20,8 +20,7 @@ export class ProjectComponent implements OnInit {
   projects: ProjectModel[];
   project:ProjectModel;
   myDatePickerOptions: IMyDpOptions = {
-    // other options...
-    dateFormat: 'yyyy/mm/dd',
+    dateFormat: 'yyyy/mm/dd'
 };
   selectedRow : Number;
   projectFrm: FormGroup;
@@ -85,7 +84,7 @@ editProject(currentId: number) {
         day: currentStartDate.getDate()}
     }});
     let currentEndDate=new Date(this.project.endDate);
-    this.projectFrm.patchValue({startDate: {
+    this.projectFrm.patchValue({endDate: {
       date: {
           year: currentEndDate.getFullYear(),
           month: currentEndDate.getMonth() + 1,

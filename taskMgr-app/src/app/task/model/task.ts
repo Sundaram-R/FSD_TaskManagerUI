@@ -1,12 +1,12 @@
 export class TaskModel{
-      TaskId:number;
-      Task:string;
-      ProjectID:number;
-      IsParentTask:boolean;
-       ParentTask:number;
-       Priority:number;
-      StartDate:Date;
-     EndDate:Date;
-      TaskOwner:number;
-      Status:string;
+      taskId:number;
+      taskName:string;
+      projectID:number;
+      isParentTask:boolean;
+       parentTask:number;
+       priority:number;
+      startDate:Date;
+     endDate:Date;
+      taskOwner:number;
+      status:string;
 }
