@@ -23,9 +23,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/app/styles/jquery-ui-timepicker-addon.css"
             ],
-            "scripts": []
+            "scripts": ["src/app/scripts/jquery-ui-timepicker-addon.js"]
           },
           "configurations": {
             "production": {

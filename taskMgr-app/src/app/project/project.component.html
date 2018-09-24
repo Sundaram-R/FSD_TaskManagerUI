@@ -1,14 +1,10 @@
-<style>
-  .table tr.active td {
-  background-color:#123456 !important;
-  color: white;
-}
-</style>
+
+<form  (ngSubmit)="onSubmit(projectFrm)" [formGroup]="projectFrm">
 <div>
   <div class="form-group row col-sm-10">
     <label class="col-sm-2 col-form-label">Project</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control" placeholder="Project">
+      <input type="text" class="form-control" formControlName="project" placeholder="Project">
     </div>
   </div>
   <div class="form-group row col-sm-10">
@@ -21,10 +17,13 @@
     <div class="form-group row">
       
         <div class="col-sm-6">
-          <input type="date" class="form-control" placeholder="Start Date" />
+           <input type="text" readonly="readonly" [minimumDate]="true" [onlyDatePicker]="true"
+            id="startDate" myDatepicker formControlName="startDate" (dateChange)="onStartDateChange($event)" />
+           
+          <!-- <input type="date" class="form-control" formControlName="startDate" placeholder="Start Date" /> -->
         </div>
         <div class="input-group date col-sm-6">
-          <input type="date" class="form-control" />
+          <input type="date" class="form-control" data-date="" data-date-format="yyyy-MM-dd" formControlName="endDate" />
         </div>
       
     </div>
@@ -33,24 +32,26 @@
   <div class="form-group row col-sm-10">
     <label class="col-sm-2 col-form-label">Priority</label>
     <div class="col-sm-8">
-      <input type="range" class="form-control" value="0" min="0" max="10">
+      <input type="range" class="form-control" formControlName="priority" value="0" min="0" max="10">
     </div>
   </div>
   <div class="form-group row col-sm-10">
     <label class="col-sm-2 col-form-label">Manager</label>
-    <div class="col-sm-8 row">
-      <input type="text" disabled class="form-control col-sm-8" [(ngModel)]="selectedRow">
+    <div class="col-sm-8 row">    
+      <input type="text" class="form-control col-sm-8" formControlName="managerId" >
       <input type="button" value="Search" class="btn btn-search mr-1" (click)="loadUsersToSelect()" data-toggle="modal" data-target="#myModal">
     </div>
   </div>
   <div class="form-group row">
     <label class="col-sm-4 col-form-label"></label>
     <div class="pull-right">
-      <input type="button" class="btn btn-primary mr-1" value="Add">
+      <input type="button" id="btnSubmit" class="btn btn-primary mr-1" value="{{btnProjectTitle}}">
       <input type="button" class="btn btn-secondary" value="Reset">
     </div>
   </div>
 </div>
+</form>
+
 <!-- The Modal -->
 <div class="modal" id="myModal">
   <div class="modal-dialog modal-dialog-centered">
@@ -58,17 +59,17 @@
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Modal Heading</h4>
+        <h4 class="modal-title">Select Manager</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
         <table class="table table-bordered">
-          <tr *ngFor="let user of users | userFirstNameFilter:firstName;let i =index"  (click)="setClickedRow(user)" [class.active]="i == selectedRow-1">
+          <tr *ngFor="let user of users | userFirstNameFilter:firstName;let i =index" (click)="setClickedRow(i,user.id)"  [class.active]="i == selectedRow">
             <td>
-              <table class="table table-striped">
-                  <tr >
+              <table class="table">
+                  <tr >          
                   <td>{{user.id}}</td>                  
                   <td>{{user.firstName}}</td>
                   <td>{{user.lastName}}</td>
@@ -91,3 +92,38 @@
     </div>
   </div>
 </div>
+<hr>
+<div class="row">
+  <div class="col-sm-10">
+    <div class="form-group row">
+      <input type="text" placeholder="Search.." [(ngModel)]="project"/>
+      <label class="col-xs-1 col-sm-1 col-form-label" >Sort:</label>
+      <button type="button" class="btn btn-light" (click)="sort('startDate')">Start Date</button>
+      <button type="button" class="btn btn-light" (click)="sort('endDate')">End Date</button>
+      <button type="button" class="btn btn-light" (click)="sort('priority')">Priority</button>
+    </div>
+  </div>
+</div>
+<table class="table table-bordered">
+  <tr *ngFor="let proj of projects | projectFilter:project| orderBy: {property: column, direction: direction}">
+    <td>
+      <table class="table table-striped">
+        <tr>
+          <td>ProjectID: {{proj.project_Id}}</td>
+          <td>Project: {{proj.project}}</td>
+          <td></td>
+        </tr>
+          <tr>
+              <td>ManagerId: {{proj.managerId}}</td>
+              <td>Priority: {{proj.priority}}</td>
+          <td><button type="button" (click)="editProject(proj.project_Id)" class="btn btn-light">Edit</button></td>
+        </tr>
+        <tr>
+          <td>Start Date: {{proj.startDate | date:'yyyy-MM-dd'}}</td>
+          <td>EndDate: {{proj.endDate | date:'yyyy-MM-dd'}}</td>
+          <td><button type="button" (click)="deleteProject(proj.project_Id)" class="btn btn-light">Delete</button></td>
+          </tr>          
+      </table>
+    </td>
+    </tr>
+  </table>

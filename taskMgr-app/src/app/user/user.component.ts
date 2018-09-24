@@ -9,7 +9,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   styles: [],
   providers: []
 })
-export class UserComponent implements OnInit {
+  export class UserComponent implements OnInit {
   isDesc: boolean = false;
   column: string = 'firstName';
   msg: string;
@@ -27,7 +27,7 @@ export class UserComponent implements OnInit {
   }
   loadUsers() {
     
-    this.userService.getUsers().subscribe(users => { this.users = users; });
+    this.userService.getUsers().subscribe(users => { this.users = <User[]>users; });
   }
   editUser(currentId: number) {
     this.btnTitle = "Edit User";
@@ -47,9 +47,9 @@ export class UserComponent implements OnInit {
     this.loadUsers();
     this.btnTitle = "Add User";
   }
-  onSubmit(formData: any) {
-    
+  onSubmit(formData: any) {    
     if (this.btnTitle == "Add User") {
+      
       this.userService.addUser(formData.value).subscribe(data => {
         if (data.toString() == "1") {
           this.msg = "Data Added successfully";

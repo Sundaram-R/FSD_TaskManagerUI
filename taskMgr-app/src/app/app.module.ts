@@ -9,9 +9,11 @@ import { ProjectComponent } from './project/project.component';
 import { TaskComponent } from './task/task.component';
 import { MenuComponent } from './menu/menu.component';
 import {CONST_Routing} from './app.routing';
-import {UserFirstNameFilter, OrderByPipe} from './pipe';
+import {UserFirstNameFilter, OrderByPipe, ProjectFilter} from './pipe';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from './shared-module/shared.module';
+
 
 @NgModule({
   declarations: [
@@ -21,7 +23,7 @@ import { HttpClientModule } from '@angular/common/http';
     TaskComponent,
     MenuComponent,
     UserFirstNameFilter,
-    OrderByPipe
+    OrderByPipe, ProjectFilter, SharedModule
   ],
   imports: [
     BrowserModule,
@@ -29,9 +31,9 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,HttpModule,
     ReactiveFormsModule,
     CONST_Routing,HttpClientModule,
-    CommonModule
+    CommonModule, SharedModule
   ],  
-  exports:[ReactiveFormsModule,UserFirstNameFilter,
+  exports:[ReactiveFormsModule,UserFirstNameFilter,ProjectFilter,
     OrderByPipe],
   schemas: [ NO_ERRORS_SCHEMA],
   providers: [],

@@ -1,29 +1,32 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { Http } from '@angular/http';
+
+import { map } from "rxjs/operators";
+
 import { ProjectModel } from '../model/project';
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
-  projects: ProjectModel[];
   genericUrl: string = "http://localhost/TaskManagerWebAPI/api/project";
-  constructor(private http: HttpClient) { }
-  addProject(project: ProjectModel) {
-    return this.http.post(this.genericUrl, project).pipe(map((response: HttpResponse<number>) => response));
+  constructor( private http:Http) { }
+  addProject(user: ProjectModel) {
+    return this.http.post(this.genericUrl, user).pipe(map((response: Response) => response.json()));
   }
-  editProject(project: ProjectModel) {
+  editProject(user: ProjectModel) {
 
-    return this.http.put(this.genericUrl, project).pipe(map((response: HttpResponse<number>) => response));
+    return this.http.put(this.genericUrl, user).pipe(map((response: Response) => response.json()));
   }
   deleteProject(id: number) {
 
-    return this.http.delete(this.genericUrl+"\\" + id).pipe(map((response: HttpResponse<number>) => response));
+    return this.http.delete(this.genericUrl+"\\" + id).pipe(map((response: Response) => response.json()));
   }
   getProjects() {
-    return this.http.get(this.genericUrl).pipe(map((response: HttpResponse<number>) => <any>response));
+    return this.http.get(this.genericUrl).pipe(map((res: Response) => res.json()));
   }
   getProject(id: number) {
-    return this.http.get(this.genericUrl+id).pipe(map((response: any) => response.json()));
+    return this.http.get(this.genericUrl+"\\"+id).pipe(map((response: any) => response.json()));
   }
 }

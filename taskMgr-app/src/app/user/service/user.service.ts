@@ -1,31 +1,30 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse,HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { Http } from '@angular/http';
+
+import { map } from "rxjs/operators";
+
 import { User } from '../model/user';
-import { Observable } from 'rxjs';
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  users:Observable<User[]>;
-  
   genericUrl: string = "http://localhost/TaskManagerWebAPI/api/user";
-  constructor(private http: HttpClient) { }
+  constructor( private http:Http) { }
   addUser(user: User) {
-    return this.http.post(this.genericUrl, user).pipe(map((response: HttpResponse<number>) => response));
+    return this.http.post(this.genericUrl, user).pipe(map((response: Response) => response.json()));
   }
   editUser(user: User) {
 
-    return this.http.put(this.genericUrl, user).pipe(map((response: HttpResponse<number>) => response));
+    return this.http.put(this.genericUrl, user).pipe(map((response: Response) => response.json()));
   }
   deleteUser(id: number) {
 
-    return this.http.delete(this.genericUrl+"\\" + id).pipe(map((response: HttpResponse<number>) => response));
+    return this.http.delete(this.genericUrl+"\\" + id).pipe(map((response: Response) => response.json()));
   }
   getUsers() {
-    debugger;
-    const headers = new HttpHeaders().set('content-type', 'application/json');
-    return this.http.get<User[]>(this.genericUrl,{headers});
+    return this.http.get(this.genericUrl).pipe(map((res: Response) => res.json()));
   }
   getUser(id: number) {
     return this.http.get(this.genericUrl+"\\"+id).pipe(map((response: any) => response.json()));
