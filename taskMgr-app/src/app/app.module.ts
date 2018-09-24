@@ -12,8 +12,7 @@ import {CONST_Routing} from './app.routing';
 import {UserFirstNameFilter, OrderByPipe, ProjectFilter} from './pipe';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
-import { SharedModule } from './shared-module/shared.module';
-
+import { MyDatePickerModule } from 'mydatepicker';
 
 @NgModule({
   declarations: [
@@ -23,7 +22,7 @@ import { SharedModule } from './shared-module/shared.module';
     TaskComponent,
     MenuComponent,
     UserFirstNameFilter,
-    OrderByPipe, ProjectFilter, SharedModule
+    OrderByPipe, ProjectFilter
   ],
   imports: [
     BrowserModule,
@@ -31,7 +30,7 @@ import { SharedModule } from './shared-module/shared.module';
     FormsModule,HttpModule,
     ReactiveFormsModule,
     CONST_Routing,HttpClientModule,
-    CommonModule, SharedModule
+    CommonModule, MyDatePickerModule
   ],  
   exports:[ReactiveFormsModule,UserFirstNameFilter,ProjectFilter,
     OrderByPipe],

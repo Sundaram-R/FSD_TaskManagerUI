@@ -4,7 +4,7 @@ import {ProjectService } from './service/project.service';
 import { User } from '../user/model/user';
 import { FormGroup, FormBuilder,FormControl, Validators } from '@angular/forms';
 import { ProjectModel } from './model/project';
-
+import {IMyDpOptions} from 'mydatepicker';
 
 @Component({
   selector: 'app-project',
@@ -16,10 +16,13 @@ export class ProjectComponent implements OnInit {
   column: string = 'project';
   msg: string;
   users : User[];
-startDate:any=new Date();
+
   projects: ProjectModel[];
   project:ProjectModel;
-
+  myDatePickerOptions: IMyDpOptions = {
+    // other options...
+    dateFormat: 'yyyy/mm/dd',
+};
   selectedRow : Number;
   projectFrm: FormGroup;
   returnValue: number;
@@ -27,12 +30,13 @@ startDate:any=new Date();
   constructor(private userService: UserService,private projectService: ProjectService,private fbProject: FormBuilder) { }
 
   ngOnInit() {
+    
     this.projectFrm = this.fbProject.group({ project_Id:new FormControl({value:''}),
     project:new FormControl({value:'', Validators:Validators.required}), 
-    startDate:new FormControl({value:'' , type:'Date'}), 
+    startDate:new FormControl({value:'' }), 
     endDate:new FormControl({value:''}), 
-    priority:new FormControl({value:''}),
-    managerId:new FormControl({value:'',disabled: true}) });
+    priority:new FormControl({value:0}),
+    managerId:new FormControl({value:''}) });
     this.btnProjectTitle = "Add Project";
     this.projectFrm.reset();
     this.loadProjects();
@@ -46,9 +50,21 @@ this.selectedRow=index;
 this.projectFrm.get('managerId').setValue(managerID);
 
 }
-onStartDateChange(date){
-this.startDate=date;
-this.startDate=new Date(this.startDate).toISOString();
+setDate(): void {
+  
+  // Set today date using the patchValue function
+  let date = new Date();
+  this.projectFrm.patchValue({startDate: {
+  date: {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate()}
+  }});
+}
+
+clearDate(): void {
+  // Clear the date using the patchValue function
+  this.projectFrm.patchValue({startDate: null});
 }
 loadProjects() {
   
@@ -57,10 +73,25 @@ loadProjects() {
 editProject(currentId: number) {
   this.btnProjectTitle = "Edit Project";
   this.project = this.projects.filter(x => x.project_Id == currentId)[0];
-  this.projectFrm.get('project_Id').setValue(this.project.project_Id);
-  this.projectFrm.get('priority').setValue(this.project.priority);
-  this.projectFrm.get('startDate').setValue(new Date(this.project.startDate));
-  this.projectFrm.get('endDate').setValue(this.project.endDate);
+  this.projectFrm.get('project_Id').patchValue(this.project.project_Id);
+  this.projectFrm.get('priority').patchValue(this.project.priority);
+  this.projectFrm.get('project').patchValue(this.project.project);
+  
+  let currentStartDate=new Date(this.project.startDate);
+  this.projectFrm.patchValue({startDate: {
+    date: {
+        year: currentStartDate.getFullYear(),
+        month: currentStartDate.getMonth() + 1,
+        day: currentStartDate.getDate()}
+    }});
+    let currentEndDate=new Date(this.project.endDate);
+    this.projectFrm.patchValue({startDate: {
+      date: {
+          year: currentEndDate.getFullYear(),
+          month: currentEndDate.getMonth() + 1,
+          day: currentEndDate.getDate()}
+      }});
+  this.projectFrm.get('managerId').patchValue(this.project.managerId);
   //this.projectFrm.setValue(this.project);
 }
 deleteProject(currentId: number) {
@@ -80,12 +111,20 @@ resetForm(){
   this.msg="";
   this.projectFrm.reset();
 }
-onSubmit(formData: any) {    
-  debugger;
+onProjectSubmit(formData: any) {    
+
+  let projectData:ProjectModel =new ProjectModel();
+  projectData.startDate = new Date(formData.value.startDate.formatted);
+  projectData.endDate = new Date(formData.value.endDate.formatted);
+  projectData.project_Id = formData.value.project_Id;
+  projectData.project = formData.value.project;
+  projectData.managerId = formData.value.managerId;
+  projectData.priority = formData.value.priority;
+
   if(this.projectFrm.valid){
   if (this.btnProjectTitle == "Add Project") {
-    
-    this.projectService.addProject(formData.value).subscribe(data => {
+    console.log(formData.value);
+    this.projectService.addProject(projectData).subscribe(data => {
       if (data.toString() == "1") {
         this.msg = "Data Added successfully";
         this.projectFrm.reset();
@@ -96,7 +135,7 @@ onSubmit(formData: any) {
     }, error => this.msg = <string>error);
   }
   else if (this.btnProjectTitle == "Edit Project") {
-    this.projectService.editProject(formData.value).subscribe(data => {
+    this.projectService.editProject(projectData).subscribe(data => {
       if (data.toString() == "1") {
         this.msg = "Data Saved successfully";
         this.projectFrm.reset();

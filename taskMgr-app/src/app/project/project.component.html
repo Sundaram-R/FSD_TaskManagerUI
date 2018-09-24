@@ -1,5 +1,4 @@
-
-<form  (ngSubmit)="onSubmit(projectFrm)" [formGroup]="projectFrm">
+<form  (ngSubmit)="onProjectSubmit(projectFrm)" [formGroup]="projectFrm">
 <div>
   <div class="form-group row col-sm-10">
     <label class="col-sm-2 col-form-label">Project</label>
@@ -9,21 +8,22 @@
   </div>
   <div class="form-group row col-sm-10">
     <label class="col-sm-2 col-form-label"></label>
-    <div class="form-group row col-sm-8">
+    <div class="form-group row col-sm-10">
     <div class="checkbox mr-1">
       <label>
         <input type="checkbox" >Set Start & End date</label>
     </div>
-    <div class="form-group row">
+    <div class="form-group row col-sm-8">
       
         <div class="col-sm-6">
-           <input type="text" readonly="readonly" [minimumDate]="true" [onlyDatePicker]="true"
-            id="startDate" myDatepicker formControlName="startDate" (dateChange)="onStartDateChange($event)" />
-           
+          <my-date-picker name="startDate" [options]="myDatePickerOptions"
+                    formControlName="startDate"></my-date-picker> 
           <!-- <input type="date" class="form-control" formControlName="startDate" placeholder="Start Date" /> -->
         </div>
-        <div class="input-group date col-sm-6">
-          <input type="date" class="form-control" data-date="" data-date-format="yyyy-MM-dd" formControlName="endDate" />
+        <div class="col-sm-6">
+            <my-date-picker name="endDate" [options]="myDatePickerOptions"
+            formControlName="endDate"></my-date-picker> 
+          
         </div>
       
     </div>
@@ -45,8 +45,8 @@
   <div class="form-group row">
     <label class="col-sm-4 col-form-label"></label>
     <div class="pull-right">
-      <input type="button" id="btnSubmit" class="btn btn-primary mr-1" value="{{btnProjectTitle}}">
-      <input type="button" class="btn btn-secondary" value="Reset">
+      <input type="button" id="btnSubmit" (click)="onProjectSubmit(projectFrm)" class="btn btn-primary mr-1" value="{{btnProjectTitle}}">
+      <input type="button" class="btn btn-secondary" value="Reset" (click)="resetForm()">
     </div>
   </div>
 </div>
