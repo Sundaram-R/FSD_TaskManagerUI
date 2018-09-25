@@ -90,7 +90,9 @@ clearDate(): void {
   onTaskSubmit(formData: any) {    
     if(this.taskFrm.valid){
   let taskData:TaskModel =new TaskModel();
+  if(formData.value.startDate)
   taskData.startDate = new Date(formData.value.startDate.formatted);  
+  if(formData.value.endDate)
   taskData.endDate = new Date(formData.value.endDate.formatted);
   taskData.taskId = formData.value.taskId;
   taskData.isParentTask = formData.value.isParentTask;
