@@ -1,4 +1,4 @@
-<form  (ngSubmit)="onTaskSubmit(taskFrm)" [formGroup]="taskFrm">
+<form (ngSubmit)="onTaskSubmit(taskFrm)" [formGroup]="taskFrm">
 <div class="panel">
   <div class="panel-body row col-sm-10">
     <label class="col-sm-2 col-form-label" for="txtFirstName">Project</label>
@@ -10,14 +10,14 @@
   <div class="panel-body row col-sm-10">
     <label class="col-sm-2 col-form-label">Task</label>
     <div class="form-group row col-sm-8">
-      <input type="text" class="form-control mr-1 col-sm-8" formControlName="taskName" placeholder="Task" />
+      <input type="text" class="form-control mr-1 col-sm-8" required formControlName="taskName" placeholder="Task" />
     </div>
   </div>
   <div class="panel-body row col-sm-10">
     <label class="col-sm-2 col-form-label"></label>
     <div class="checkbox">
       <label>
-        <input type="checkbox" formControlName="isParentTask">Parent task</label>
+        <input type="checkbox" formControlName="isParentTask" >Parent task</label>
     </div>
   </div>
   <div class="panel-body row col-sm-10">
@@ -26,7 +26,7 @@
       <input type="range" formControlName="priority" class="form-control mr-1 col-sm-8" min="0" max="50" value="0" />
     </div>
   </div>
-  <div class="panel-body row col-sm-10">
+  <div *ngIf="!taskFrm.get('isParentTask').value" class="panel-body row col-sm-10" id="divParentTask" >
     <label class="col-sm-2 col-form-label" for="txtParentTask">Parent Task</label>
     <div class="form-group row col-sm-8">
       <input type="text" class="form-control mr-1 col-sm-6" formControlName="parentTask" placeholder="Parent Task" id="txtParentTask" />
@@ -57,7 +57,7 @@
   <div class="form-group row">
       <label class="col-sm-4 col-form-label"></label>
     <div class="pull-right">
-      <input type="submit"  class="btn btn-primary mr-1" value="{{btnTaskTitle}}">
+      <input type="submit"  class="btn btn-primary mr-1" [disabled]="taskFrm.invalid" value="{{btnTaskTitle}}">
       <input type="reset" class="btn btn-secondary" value="Reset">
     </div>
 </div>
@@ -122,11 +122,11 @@
       <!-- Modal body -->
       <div class="modal-body">
         <table class="table table-bordered">
-          <tr *ngFor="let project of projects;let i =index" (click)="setProjectClickedRow(i,project.projectID)"  [class.active]="i == selectedRow">
+          <tr *ngFor="let project of projects;let i =index" (click)="setProjectClickedRow(i,project.project_Id)"  [class.active]="i == selectedRow">
             <td>
               <table class="table">
                   <tr >          
-                  <td>{{project.projectID}}</td>                  
+                  <td>{{project.project_Id}}</td>                  
                   <td>{{project.project}}</td>          
                 </tr>
               </table>

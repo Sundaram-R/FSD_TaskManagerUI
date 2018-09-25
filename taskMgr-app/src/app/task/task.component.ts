@@ -29,6 +29,7 @@ export class TaskComponent implements OnInit {
   taskFrm: FormGroup;
   returnValue: number;
   btnTaskTitle: string;
+  
   constructor(private taskService:TaskService, private projectService:ProjectService, private userService:UserService,private fbTask: FormBuilder) { }
 
   ngOnInit() {
@@ -61,11 +62,11 @@ this.selectedRow=index;
 this.taskFrm.get('taskOwner').setValue(taskOwnerID);
 
 }
-setProjectClickedRow(index,projectID){
+setProjectClickedRow(index,projectID){  
   this.selectedRow=index;
   this.taskFrm.get('projectID').setValue(projectID);
 }
-setParentTaskClickedRow(index,parentId){
+setParentTaskClickedRow(index,parentId){  
   this.selectedRow=index;
   this.taskFrm.get('parentTask').setValue(parentId);
 }
@@ -85,8 +86,9 @@ clearDate(): void {
   // Clear the date using the patchValue function
   this.taskFrm.patchValue({startDate: null});
 }
-  onTaskSubmit(formData: any) {    
 
+  onTaskSubmit(formData: any) {    
+    if(this.taskFrm.valid){
   let taskData:TaskModel =new TaskModel();
   taskData.startDate = new Date(formData.value.startDate.formatted);  
   taskData.endDate = new Date(formData.value.endDate.formatted);
@@ -97,9 +99,9 @@ clearDate(): void {
   taskData.projectID = formData.value.projectID;
   taskData.taskName = formData.value.taskName;
   taskData.taskOwner = formData.value.taskOwner;
-
-  if(this.taskFrm.valid){
-  if (this.btnTaskTitle == "Add Project") {
+  taskData.status = "Open";
+  
+  if (this.btnTaskTitle == "Add Task") {
     console.log(formData.value);
     this.taskService.addTask(taskData).subscribe(data => {
       if (data.toString() == "1") {
@@ -113,6 +115,8 @@ clearDate(): void {
   }
   
 }
- 
-}
+ else{
+   this.msg="Invalid Data";
+ }
+  }
 }

@@ -35,6 +35,7 @@ export class ProjectComponent implements OnInit {
     startDate:new FormControl({value:'' }), 
     endDate:new FormControl({value:''}), 
     priority:new FormControl({value:0}),
+    setDates:new FormControl({value:false}),
     managerId:new FormControl({value:''}) });
     this.btnProjectTitle = "Add Project";
     this.projectFrm.reset();
@@ -75,7 +76,9 @@ editProject(currentId: number) {
   this.projectFrm.get('project_Id').patchValue(this.project.project_Id);
   this.projectFrm.get('priority').patchValue(this.project.priority);
   this.projectFrm.get('project').patchValue(this.project.project);
-  
+  if(this.project.startDate && this.project.endDate){
+    this.projectFrm.get('setDates').patchValue(true);
+  }
   let currentStartDate=new Date(this.project.startDate);
   this.projectFrm.patchValue({startDate: {
     date: {
@@ -97,13 +100,14 @@ deleteProject(currentId: number) {
   this.projectService.deleteProject(currentId).subscribe(data => {
     if (data.toString() == "1") {
       this.msg = "Data deleted successfully";
+      this.loadProjects();
       this.projectFrm.reset();
     }
     else {
       this.msg = "Error in deleting data";
     }
   }, error => this.msg = <string>error);
-  this.loadProjects();
+  
   this.btnProjectTitle = "Add Project";
 }
 resetForm(){
@@ -113,7 +117,9 @@ resetForm(){
 onProjectSubmit(formData: any) {    
 
   let projectData:ProjectModel =new ProjectModel();
+  if(formData.value.startDate)
   projectData.startDate = new Date(formData.value.startDate.formatted);
+  if(formData.value.endDate)
   projectData.endDate = new Date(formData.value.endDate.formatted);
   projectData.project_Id = formData.value.project_Id;
   projectData.project = formData.value.project;
@@ -126,6 +132,7 @@ onProjectSubmit(formData: any) {
     this.projectService.addProject(projectData).subscribe(data => {
       if (data.toString() == "1") {
         this.msg = "Data Added successfully";
+        this.loadProjects();
         this.projectFrm.reset();
       }
       else {
@@ -137,6 +144,7 @@ onProjectSubmit(formData: any) {
     this.projectService.editProject(projectData).subscribe(data => {
       if (data.toString() == "1") {
         this.msg = "Data Saved successfully";
+        this.loadProjects();
         this.projectFrm.reset();
       }
       else {
@@ -148,7 +156,7 @@ onProjectSubmit(formData: any) {
 else{
   this.msg="Please provide proper data";
 }
-  this.loadProjects();
+ 
   this.btnProjectTitle = "Add Project";
 }
 direction: number;

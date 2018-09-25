@@ -3,7 +3,7 @@
   <div class="form-group row col-sm-10">
     <label class="col-sm-2 col-form-label">Project</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control" formControlName="project" placeholder="Project">
+      <input type="text" class="form-control" required formControlName="project" placeholder="Project">
     </div>
   </div>
   <div class="form-group row col-sm-10">
@@ -11,21 +11,18 @@
     <div class="form-group row col-sm-10">
     <div class="checkbox mr-1">
       <label>
-        <input type="checkbox" >Set Start & End date</label>
+        <input type="checkbox" formControlName="setDates"  >Set Start & End date</label>
     </div>
-    <div class="form-group row col-sm-8">
+    <div class="form-group row col-sm-8" *ngIf="this.projectFrm.get('setDates').value">
       
         <div class="col-sm-6">
           <my-date-picker name="startDate" [options]="myDatePickerOptions"
-                    formControlName="startDate"></my-date-picker> 
-          <!-- <input type="date" class="form-control" formControlName="startDate" placeholder="Start Date" /> -->
+                    formControlName="startDate"></my-date-picker>           
         </div>
         <div class="col-sm-6">
             <my-date-picker name="endDate" [options]="myDatePickerOptions"
             formControlName="endDate"></my-date-picker> 
-          
         </div>
-      
     </div>
   </div>
   </div>
@@ -38,14 +35,14 @@
   <div class="form-group row col-sm-10">
     <label class="col-sm-2 col-form-label">Manager</label>
     <div class="col-sm-8 row">    
-      <input type="text" class="form-control col-sm-8" formControlName="managerId" >
+      <input type="text" class="form-control col-sm-8" readonly formControlName="managerId" >
       <input type="button" value="Search" class="btn btn-search mr-1" (click)="loadUsersToSelect()" data-toggle="modal" data-target="#myModal">
     </div>
   </div>
   <div class="form-group row">
     <label class="col-sm-4 col-form-label"></label>
     <div class="pull-right">
-      <input type="button" id="btnSubmit" (click)="onProjectSubmit(projectFrm)" class="btn btn-primary mr-1" value="{{btnProjectTitle}}">
+      <input type="button" id="btnSubmit" [disabled]="projectFrm.invalid" (click)="onProjectSubmit(projectFrm)" class="btn btn-primary mr-1" value="{{btnProjectTitle}}">
       <input type="button" class="btn btn-secondary" value="Reset" (click)="resetForm()">
     </div>
   </div>
@@ -126,7 +123,12 @@
           <td>Start Date: {{proj.startDate | date:'yyyy-MM-dd'}}</td>
           <td>EndDate: {{proj.endDate | date:'yyyy-MM-dd'}}</td>
           <td><button type="button" (click)="deleteProject(proj.project_Id)" class="btn btn-light">Delete</button></td>
-          </tr>          
+          </tr>   
+          <tr>
+            <td>No of Tasks: {{proj.noOfTasks}}</td>
+            <td>Completed: {{proj.tasksCompleted}}</td>
+            <td></td>
+          </tr>       
       </table>
     </td>
     </tr>

@@ -6,4 +6,6 @@ export class ProjectModel
     endDate:Date;
     priority:number;
     managerId:number;
+    noOfTasks:number;
+    tasksCompleted:number;
 }
