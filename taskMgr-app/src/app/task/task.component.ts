@@ -61,6 +61,14 @@ this.selectedRow=index;
 this.taskFrm.get('taskOwner').setValue(taskOwnerID);
 
 }
+setProjectClickedRow(index,projectID){
+  this.selectedRow=index;
+  this.taskFrm.get('projectID').setValue(projectID);
+}
+setParentTaskClickedRow(index,parentId){
+  this.selectedRow=index;
+  this.taskFrm.get('parentTask').setValue(parentId);
+}
 setDate(): void {
   
   // Set today date using the patchValue function
