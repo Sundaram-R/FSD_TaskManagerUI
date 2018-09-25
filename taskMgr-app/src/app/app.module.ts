@@ -13,6 +13,7 @@ import {UserFirstNameFilter, OrderByPipe, ProjectFilter} from './pipe';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { MyDatePickerModule } from 'mydatepicker';
+import { ViewTaskComponent } from './view-task/view-task.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { MyDatePickerModule } from 'mydatepicker';
     TaskComponent,
     MenuComponent,
     UserFirstNameFilter,
-    OrderByPipe, ProjectFilter
+    OrderByPipe, ProjectFilter, ViewTaskComponent
   ],
   imports: [
     BrowserModule,
