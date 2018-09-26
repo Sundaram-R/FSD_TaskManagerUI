@@ -4,6 +4,7 @@ import {TaskService } from '../task/service/task.service';
 import { TaskModel } from '../task/model/task';
 import { ProjectModel } from '../project/model/project';
 import { FormGroup , FormBuilder,FormControl,Validators} from '@angular/forms';
+import {IMyDpOptions} from 'mydatepicker';
 
 @Component({
   selector: 'app-view-task',
@@ -18,10 +19,18 @@ export class ViewTaskComponent implements OnInit {
   taskEditFrm:FormGroup;
   msg: string;
   selectedRow:number;
+  myDatePickerOptionsSD: IMyDpOptions;
+  myDatePickerOptionsED:IMyDpOptions;
   projects:ProjectModel[];
   constructor(private taskService:TaskService, private projectService:ProjectService,private fbEditTask: FormBuilder) { }
 
   ngOnInit() {
+    this.myDatePickerOptionsSD= {
+      dateFormat: 'yyyy/mm/dd', disableUntil:{ year:new Date().getFullYear(), month:new Date().getMonth()+1, day:new Date().getDate()-1 }
+    }
+    this.myDatePickerOptionsED= {
+      dateFormat: 'yyyy/mm/dd', disableUntil:{ year:new Date().getFullYear(), month:new Date().getMonth()+1, day:new Date().getDate() }
+    }
   }
   loadProjectsToSelect() {
     

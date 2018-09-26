@@ -22,9 +22,8 @@ export class TaskComponent implements OnInit {
   project:ProjectModel;
   tasks: TaskModel[];
   task:TaskModel;
-  myDatePickerOptions: IMyDpOptions = {    
-    dateFormat: 'yyyy/mm/dd',
-};
+  myDatePickerOptionsSD: IMyDpOptions;
+  myDatePickerOptionsED:IMyDpOptions;
   selectedRow : Number;
   taskFrm: FormGroup;
   returnValue: number;
@@ -33,6 +32,12 @@ export class TaskComponent implements OnInit {
   constructor(private taskService:TaskService, private projectService:ProjectService, private userService:UserService,private fbTask: FormBuilder) { }
 
   ngOnInit() {
+    this.myDatePickerOptionsSD= {
+      dateFormat: 'yyyy/mm/dd', disableUntil:{ year:new Date().getFullYear(), month:new Date().getMonth()+1, day:new Date().getDate()-1 }
+    }
+    this.myDatePickerOptionsED= {
+      dateFormat: 'yyyy/mm/dd', disableUntil:{ year:new Date().getFullYear(), month:new Date().getMonth()+1, day:new Date().getDate() }
+    }
     this.taskFrm = this.fbTask.group({ taskId:new FormControl({value:''}),
     taskName:new FormControl({value:'', Validators:Validators.required}), 
     projectID:new FormControl({value:''}),

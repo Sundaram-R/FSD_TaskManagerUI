@@ -36,7 +36,7 @@
 
   <div *ngIf="!taskFrm.get('isParentTask').value" class="panel-body row col-sm-10">
     <label class="col-sm-2" >Start Date</label>
-    <my-date-picker class="col-sm-4" name="startDate" [options]="myDatePickerOptions"
+    <my-date-picker class="col-sm-4" name="startDate" [options]="myDatePickerOptionsSD"
                     formControlName="startDate"></my-date-picker> 
       <!-- <input type="date" class="form-control col-sm-2" formControlName="startDate"  /> -->
     </div>
@@ -44,7 +44,7 @@
       <label class="col-sm-2 col-form-label">End Date</label>
 
       <!-- <input type="date" class="form-control col-sm-2"  formControlName="endDate"/> -->
-      <my-date-picker class="col-sm-4" name="endDate" [options]="myDatePickerOptions"
+      <my-date-picker class="col-sm-4" name="endDate" [options]="myDatePickerOptionsED"
       formControlName="endDate"></my-date-picker> 
   </div>
   <div class="panel-body row col-sm-10">

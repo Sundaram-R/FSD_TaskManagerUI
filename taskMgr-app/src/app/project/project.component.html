@@ -16,11 +16,11 @@
     <div class="form-group row col-sm-8" *ngIf="this.projectFrm.get('setDates').value">
       
         <div class="col-sm-6">
-          <my-date-picker name="startDate" [options]="myDatePickerOptions"
+          <my-date-picker name="startDate" [options]="myDatePickerOptionsSD"
                     formControlName="startDate"></my-date-picker>           
         </div>
         <div class="col-sm-6">
-            <my-date-picker name="endDate" [options]="myDatePickerOptions"
+            <my-date-picker name="endDate" [options]="myDatePickerOptionsED"
             formControlName="endDate"></my-date-picker> 
         </div>
     </div>

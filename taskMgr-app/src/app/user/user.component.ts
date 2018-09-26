@@ -20,6 +20,7 @@ export class UserComponent implements OnInit {
   userFrm: FormGroup;
   returnValue: number;
   btnTitle: string;
+  
   ngOnInit() {
     this.userFrm = this.fb.group({
       firstName: new FormControl({ value: '', Validators: Validators.required }),

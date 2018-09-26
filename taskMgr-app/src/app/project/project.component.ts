@@ -19,17 +19,23 @@ export class ProjectComponent implements OnInit {
 
   projects: ProjectModel[];
   project:ProjectModel;
-  myDatePickerOptions: IMyDpOptions = {
-    dateFormat: 'yyyy/mm/dd'
-};
+ 
+  
   selectedRow : Number;
   projectFrm: FormGroup;
   returnValue: number;
   btnProjectTitle: string;
+  myDatePickerOptionsSD: IMyDpOptions;
+  myDatePickerOptionsED:IMyDpOptions;
   constructor(private userService: UserService,private projectService: ProjectService,private fbProject: FormBuilder) { }
 
   ngOnInit() {
-    
+    this.myDatePickerOptionsSD= {
+      dateFormat: 'yyyy/mm/dd', disableUntil:{ year:new Date().getFullYear(), month:new Date().getMonth()+1, day:new Date().getDate()-1 }
+    }
+    this.myDatePickerOptionsED= {
+      dateFormat: 'yyyy/mm/dd', disableUntil:{ year:new Date().getFullYear(), month:new Date().getMonth()+1, day:new Date().getDate() }
+    }
     this.projectFrm = this.fbProject.group({ project_Id:new FormControl({value:''}),
     project:new FormControl({value:'', Validators:Validators.required}), 
     startDate:new FormControl({value:'' }), 
