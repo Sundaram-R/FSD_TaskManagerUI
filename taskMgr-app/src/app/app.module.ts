@@ -10,9 +10,10 @@ import { TaskComponent } from './task/task.component';
 import { MenuComponent } from './menu/menu.component';
 import {CONST_Routing} from './app.routing';
 import {UserFirstNameFilter, OrderByPipe, ProjectFilter} from './pipe';
-import { HttpModule } from '@angular/http';
+import { Http, HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { MyDatePickerModule } from 'mydatepicker';
+
 import { ViewTaskComponent } from './view-task/view-task.component';
 
 @NgModule({
@@ -28,13 +29,13 @@ import { ViewTaskComponent } from './view-task/view-task.component';
   imports: [
     BrowserModule,
     HttpClientTestingModule,    
-    FormsModule,HttpModule,
+    FormsModule,HttpModule, Http,
     ReactiveFormsModule,
     CONST_Routing,HttpClientModule,
-    CommonModule, MyDatePickerModule
+    CommonModule
   ],  
   exports:[ReactiveFormsModule,UserFirstNameFilter,ProjectFilter,
-    OrderByPipe],
+    OrderByPipe,MyDatePickerModule],
   schemas: [ NO_ERRORS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent]

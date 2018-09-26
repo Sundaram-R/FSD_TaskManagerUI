@@ -23,7 +23,7 @@ describe('UserComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserComponent);
     component = fixture.componentInstance;
-    component.userFrm=fb.group({ firstName: [''], lastName: [''], employeeId: [''], id: [''] });
+    
     fixture.detectChanges();
   });
 
