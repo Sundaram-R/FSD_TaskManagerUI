@@ -5,6 +5,7 @@ import {UserFirstNameFilter, OrderByPipe} from '../pipe';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import {RouterTestingModule} from "@angular/router/testing";
+import { User } from './model/user';
 
 describe('UserComponent', () => {
   let component: UserComponent;
@@ -30,5 +31,31 @@ describe('UserComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+it('calling sort method should set column value for pipe',()=>
+{
+spyOn(component,'sort');
+component.sort('firstName');
+expect(component.column).toBe('firstName');
+})
+it('calling editUser method should set button title',()=>
+{
+spyOn(component,'editUser').and.callThrough();
+component.user = {"id":2 , "firstName":"first", "lastName":"last", "employeeId":123};
+component.users=new Array<User>();
+component.users.push(component.user);
+component.editUser(2);
+expect(component.btnTitle).toBe('Edit User');
 
+})
+it('calling editUser method should have value for user',()=>
+{
+spyOn(component,'editUser');
+
+component.user = {"id":2 , "firstName":"first", "lastName":"last", "employeeId":123};
+component.users=new Array<User>();
+component.users.push(component.user);
+component.editUser(2);
+expect(component.user).toBeDefined();
+
+})
 });

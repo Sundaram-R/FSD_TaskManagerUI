@@ -12,4 +12,10 @@ describe('ProjectService', () => {
     const service: ProjectService = TestBed.get(ProjectService);
     expect(service).toBeTruthy();
   });
+  it('Get all Projects should return observable',(done:DoneFn)=>{
+    const service: ProjectService = TestBed.get(ProjectService);
+    service.getProjects().subscribe(value=>{ expect(value).length>0 });
+    done();
+  });
+ 
 });
